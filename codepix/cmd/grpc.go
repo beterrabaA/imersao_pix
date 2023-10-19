@@ -15,7 +15,7 @@ var portNumber int
 // grpcCmd represents the grpc command
 var grpcCmd = &cobra.Command{
 	Use:   "grpc",
-	Short: "A brief description of your command",
+	Short: "Start gRPC server",
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("grpc called")
 	},
