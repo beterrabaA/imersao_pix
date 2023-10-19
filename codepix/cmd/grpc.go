@@ -6,7 +6,7 @@ package cmd
 
 import (
 	"fmt"
-
+	"codepix/infrastructure/db"
 	"github.com/spf13/cobra"
 )
 
@@ -17,7 +17,8 @@ var grpcCmd = &cobra.Command{
 	Use:   "grpc",
 	Short: "Start gRPC server",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("grpc called")
+		database := db.ConnectDB(os.Getenv("env"))
+		grpc.StartGrpcServer(database, portNumber)
 	},
 }
 
