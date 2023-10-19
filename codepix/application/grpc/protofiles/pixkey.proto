@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package codepix;
 
-option go_package = "protofiles;pb";
+option go_package = "./codepix/application/grpc/protofiles";
 
 message PixKeyRegistration {
   string kind = 1;
