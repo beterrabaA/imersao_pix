@@ -1,13 +1,13 @@
 /*
 Copyright © 2023 Lucas Vieira ls6182315@gmail.com
-
 */
 package cmd
 
 import (
-	"fmt"
+	"codepix/application/grpc"
 	"codepix/infrastructure/db"
 	"github.com/spf13/cobra"
+	"os"
 )
 
 var portNumber int
@@ -24,9 +24,9 @@ var grpcCmd = &cobra.Command{
 
 func init() {
 	rootCmd.AddCommand(grpcCmd)
-	
+
 	// Here you will define your flags and configuration settings.
-	grpcCmd.Flags().IntVarP(&portNumber, "port", "p",50051, "gRPC Server port")
+	grpcCmd.Flags().IntVarP(&portNumber, "port", "p", 50051, "gRPC Server port")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
