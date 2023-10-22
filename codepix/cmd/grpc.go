@@ -1,34 +1,32 @@
 /*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+Copyright © 2023 Lucas Vieira ls6182315@gmail.com
 
 */
 package cmd
 
 import (
 	"fmt"
-
+	"codepix/infrastructure/db"
 	"github.com/spf13/cobra"
 )
+
+var portNumber int
 
 // grpcCmd represents the grpc command
 var grpcCmd = &cobra.Command{
 	Use:   "grpc",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
-
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
+	Short: "Start gRPC server",
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("grpc called")
+		database := db.ConnectDB(os.Getenv("env"))
+		grpc.StartGrpcServer(database, portNumber)
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(grpcCmd)
-
+	
 	// Here you will define your flags and configuration settings.
+	grpcCmd.Flags().IntVarP(&portNumber, "port", "p",50051, "gRPC Server port")
 
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:

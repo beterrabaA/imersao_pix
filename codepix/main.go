@@ -1,5 +1,5 @@
 /*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+Copyright © 2023 Lucas Vieira ls6182315@gmail.com
 
 */
 package main
