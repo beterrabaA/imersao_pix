@@ -5,23 +5,34 @@ Copyright © 2023 Lucas Vieira ls6182315@gmail.com
 package cmd
 
 import (
-	"fmt"
-
+	"codepix/application/kafka"
+	"codepix/application/grpc"
+	"codepix/infrastructure/db"
+	ckafka "github.com/confluentinc/confluent-kafka-go/kafka"
+	"os"
 	"github.com/spf13/cobra"
+)
+
+var (
+	gRPCPortNumber int
 )
 
 // allCmd represents the all command
 var allCmd = &cobra.Command{
 	Use:   "all",
-	Short: "A brief description of your command",
-	Long: `A longer description that spans multiple lines and likely contains examples
-and usage of using your command. For example:
+	Short: "Run gRPC and a kafka Consumer",
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("all called")
+		database := db.ConnectDB(os.Getenv("env"))
+		go grpc.StartGrpcServer(database, portNumber)
+
+		deliveryChan := make(chan ckafka.Event)
+		producer := kafka.NewKafkaProducer()
+
+		go kafka.DeliveryReport(deliveryChan)
+
+		kafkaProcessor := kafka.NewKafkaProcessor(database, producer, deliveryChan)
+		kafkaProcessor.Consume()
 	},
 }
 
@@ -29,7 +40,7 @@ func init() {
 	rootCmd.AddCommand(allCmd)
 
 	// Here you will define your flags and configuration settings.
-
+	allCmd.Flags().IntVarP(&gRPCPortNumber, "port", "p", 50051, "gRPC Server port")
 	// Cobra supports Persistent Flags which will work for this command
 	// and all subcommands, e.g.:
 	// allCmd.PersistentFlags().String("foo", "", "A help for foo")
