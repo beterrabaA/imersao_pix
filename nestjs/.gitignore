@@ -37,3 +37,5 @@ lerna-debug.log*
 .history/
 
 .env
+.bank-001.env
+.bank-002.env
