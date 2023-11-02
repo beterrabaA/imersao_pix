@@ -1,10 +1,4 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Param,
-} from '@nestjs/common';
+import { Controller, Get, Post, Body, Param } from '@nestjs/common';
 import { BankAccountsService } from './bank-accounts.service';
 import { CreateBankAccountDto } from './dto/create-bank-account.dto';
 
@@ -26,6 +20,4 @@ export class BankAccountsController {
   findOne(@Param('id') id: string) {
     return this.bankAccountsService.findOne(id);
   }
-
-
 }
